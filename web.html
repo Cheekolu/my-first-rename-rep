@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPS Tracking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            bg color:violet
+        }
+        #locationInfo {
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Location Tracker</h1>
+    <button onclick="getLocation()">Get My Location</button>
+    <p id="locationInfo"></p>
+
+    <script>
+        const locationInfoDisplay = document.getElementById("locationInfo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                locationInfoDisplay.textContent = "Locating...";
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                locationInfoDisplay.textContent = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            locationInfoDisplay.innerHTML = `Latitude: ${latitude}<br>Longitude: ${longitude}`;
+            // You can also integrate with a mapping service here, e.g., Google Maps, Leaflet.js
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    locationInfoDisplay.textContent = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    locationInfoDisplay.textContent = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    locationInfoDisplay.textContent = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    locationInfoDisplay.textContent = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
